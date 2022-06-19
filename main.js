@@ -157,6 +157,7 @@ function printBoard()
 function gameOver()
 {
     document.body.style.backgroundColor="red";
+    document.body.style.background="none";
     gameState=false;
     console.log("game ends");
 }
