@@ -17,7 +17,13 @@ window.addEventListener("resize",function()
 {
     boardDiv.move(window.innerWidth/2-210,window.innerHeight/2-200) 
 }) 
-const DOWN="-1",UP="1",LEFT="-i",RIGHT="i" 
+const DOWN="DOWN",UP="UP",LEFT="LEFT",RIGHT="RIGHT" 
+const map={
+    DOWN:downMotion,
+    UP:upMotion,
+    LEFT:leftMotion,
+    RIGHT:rightMotion
+}
 document.addEventListener("keydown",function(e)
 {
     let dir=null 
@@ -72,16 +78,8 @@ function gameHandler(direction)
     if(gameState==false)
     return //game has ended
     let moved=false 
-
-    if(direction==DOWN)
-    moved=downMotion()
-    if(direction==UP)
-    moved=upMotion() 
-    if(direction==LEFT)
-    moved=leftMotion() 
-    if(direction==RIGHT)
-    moved=rightMotion()
-
+    moved=map[direction]();
+    
     if(moved)
     addRandomTile() 
     let end=true 
@@ -110,7 +108,6 @@ function gameOver()
 {
     document.body.style.backgroundColor="red" 
     gameState=false 
-    console.log("game ends") 
     boardDiv.append(restart);
 }
 function restartGame()
@@ -119,7 +116,6 @@ function restartGame()
     document.body.style.backgroundColor="#a29385"
     restart.remove();
     let k=document.querySelectorAll(".tiles");
-    console.log(k);
     k.forEach(p=>p.remove())
     gameState=true 
     for(let i=0;i<4;i++)

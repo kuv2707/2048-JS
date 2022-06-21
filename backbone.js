@@ -54,3 +54,8 @@ function printBoard()
         console.log(s+"\t\t\t"+Math.random()) 
     }
 }
+
+function artificialFool()
+{
+    
+}
