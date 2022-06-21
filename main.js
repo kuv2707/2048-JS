@@ -85,14 +85,15 @@ function gameHandler(direction)
     let end=true 
     for(let i=0;i<4;i++)
     {
-        for(let j=0;j<4;j++)
+        for(let j=0;j<=2;j++)
         {
-            if(board[i][j]==null)
+            if(board[i][j]?.innerText==board[i][j+1]?.innerText
+                ||  board[j][i]?.innerText==board[j+1][i]?.innerText  ||  board[i][j]==null)//if there is empty space or 2 adjacent tiles have same value, then game hasn't ended yet
             end=false
         }
     }
     if(end==true)
-    gameOver() 
+    gameOver()
 }
 function addRandomTile()
 {
