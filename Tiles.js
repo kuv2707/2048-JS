@@ -1,28 +1,28 @@
-function makeTile(div,x,y)
+function makeTileAndPut(x,y)
 {
-    addTransformManager(div);
-    div.init="initialized"
+    let tile=document.createElement("button") 
+    tile.className="tiles" 
+    boardDiv.append(tile)
+    addTransformManager(tile);
     if(Math.random()<0.2)
-    {
-        div.innerText=""+2;
-    }
+    tile.innerText=""+2;
     else
+    tile.innerText=""+1;
+    board[x][y]=tile;
+    tile.move(x*100,y*100)
+    tile.doubleValue=function()
     {
-        div.innerText=""+1;
+        tile.innerText=""+2*Number(tile.innerText);
+        if(tile.innerText.length==4)
+        tile.style.fontSize="40px";
+        let val=Math.log2(Number(tile.innerText));
+        tile.style.backgroundColor=`rgb(${val/11*205},${val/11*205},${7})`
     }
-    board[x][y]=div;
-    div.doubleValue=function()
-    {
-        div.innerText=""+2*Number(div.innerText);
-        if(div.innerText.length==4)
-        div.style.fontSize="40px";
-        let val=Math.log2(Number(div.innerText));
-        div.style.backgroundColor=`rgb(${val/11*205},${val/11*205},${7})`
-    }
-    div.doubleValue();
+    tile.doubleValue();
 }
 function downMotion()
 {
+    let moved=false;
     for(let i=0;i<4;i++)
     {
         let modificationsAllowed;
@@ -41,6 +41,7 @@ function downMotion()
                         k.doubleValue();
                         board[i][c]=k;
                         k.move(i*100,c*100);
+                        moved=true;
                         board[i][c-1]=null;
                         modificationsAllowed=k;
                     }
@@ -50,15 +51,17 @@ function downMotion()
                 {
                     board[i][c]=k;
                     k.move(i*100,c*100);
+                    moved=true;
                     board[i][c-1]=null;
                 }
             }
         }
     }
-    
+    return moved;
 }
 function upMotion()
 {
+    let moved=false;
     for(let i=0;i<4;i++)
     {
         let modificationsAllowed;
@@ -77,6 +80,7 @@ function upMotion()
                         k.doubleValue();
                         board[i][c]=k;
                         k.move(i*100,c*100);
+                        moved=true;
                         board[i][c+1]=null;
                         modificationsAllowed=k;
                     }
@@ -87,14 +91,17 @@ function upMotion()
                 {
                     board[i][c]=k;
                     k.move(i*100,c*100);
+                    moved=true;
                     board[i][c+1]=null;
                 }
             }
         }
     }
+    return moved;
 }
 function rightMotion()
 {
+    let moved=false;
     for(let i=0;i<4;i++)
     {
         let modificationsAllowed;
@@ -113,6 +120,7 @@ function rightMotion()
                         k.doubleValue();
                         board[c][i]=k;
                         k.move(c*100,i*100);
+                        moved=true;
                         board[c-1][i]=null;
                         modificationsAllowed=k;
                     }
@@ -122,14 +130,17 @@ function rightMotion()
                 {
                     board[c][i]=k;
                     k.move(c*100,i*100);
+                    moved=true;
                     board[c-1][i]=null;
                 }
             }
         }
     }
+    return moved;
 }
 function leftMotion()
 {
+    let moved=false;
     for(let i=0;i<4;i++)
     {
         let modificationsAllowed;
@@ -148,6 +159,7 @@ function leftMotion()
                         k.doubleValue();
                         board[c][i]=k;
                         k.move(c*100,i*100);
+                        moved=true;
                         board[c+1][i]=null;
                         modificationsAllowed=k;
                     }
@@ -157,10 +169,12 @@ function leftMotion()
                 {
                     board[c][i]=k;
                     k.move(c*100,i*100);
+                    moved=true;
                     board[c+1][i]=null;
                 }
             }
         }
     }
+    return moved;
 }
 
